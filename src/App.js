@@ -20,7 +20,7 @@ export default function App() {
                 <div className="tenzies--die">9</div>
             </div>
             <div className="tenzies--button-wrapper">
-                <button>Roll</button>
+                <button className="tenzies--roll">Roll</button>
             </div>
         </main>
     )
