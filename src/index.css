@@ -45,7 +45,6 @@ body {
     width: 4rem;
     height: 4rem;
     font-size: 2rem;
-    background-color: #fff;
     margin: .75rem;
     display: flex;
     justify-content: center;
@@ -72,4 +71,5 @@ body {
     border-radius: 5px;
     padding: .75rem 3rem;
     color: #fff;
+    cursor: pointer;
 }

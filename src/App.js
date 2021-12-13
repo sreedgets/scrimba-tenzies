@@ -1,6 +1,48 @@
-import React from 'react';
+import React, {useState} from 'react';
+import Die from './Components/Die';
+import {nanoid} from 'nanoid';
 
 export default function App() {
+    const [dice, setDice] = useState(allNewDice());
+
+    const diceElements = dice.map(die => (
+        <Die 
+            value={die.value} 
+            held={die.isHeld} 
+            key={die.id}
+            holdDie={() => holdDie(die.id)}
+        />
+    ));
+
+    function allNewDice() {
+        const diceArr = [];
+        for (let i = 0; i < 10; i++) {
+            const newDie = {
+                value: Math.floor(Math.random() * 6 + 1),
+                isHeld: false,
+                id: nanoid()
+            }      
+            diceArr.push(newDie);
+        }
+        return diceArr;
+    }
+
+    function holdDie(id) {
+        setDice(prev => {
+            return prev.map(die => {
+                return die.id === id ? {...die, isHeld: !die.isHeld} : die;
+            })
+        });
+    }
+
+    function rollDice() {
+        setDice(prev => prev.map(die => {
+            return die.isHeld ? 
+                die : 
+                {...die, value: Math.floor(Math.random() * 6 + 1)};
+        }));
+    }
+
     return (
         <main className="tenzies--container">
             <div className="tenzies--header-wrapper">
@@ -8,19 +50,15 @@ export default function App() {
                 <p>Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
             </div>
             <div className="tenzies--dice-wrapper">
-                <div className="tenzies--die">0</div>
-                <div className="tenzies--die">1</div>
-                <div className="tenzies--die">2</div>
-                <div className="tenzies--die">3</div>
-                <div className="tenzies--die">4</div>
-                <div className="tenzies--die">5</div>
-                <div className="tenzies--die">6</div>
-                <div className="tenzies--die">7</div>
-                <div className="tenzies--die">8</div>
-                <div className="tenzies--die">9</div>
+                {diceElements}
             </div>
             <div className="tenzies--button-wrapper">
-                <button className="tenzies--roll">Roll</button>
+                <button 
+                    className="tenzies--roll"
+                    onClick={rollDice}
+                >
+                    Roll
+                </button>
             </div>
         </main>
     )
